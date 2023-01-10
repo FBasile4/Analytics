@@ -1,0 +1,28 @@
+version: "3"
+services:
+  dbpostgresql:
+    image: "postgres"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: postgresDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      restart: unless-stopped
+    networks:
+      - msgrabbit
+  app:
+    build: .
+    image: appan
+    container_name: appan
+    ports:
+      - "8095:8080"
+    depends_on:
+      - dbpostgresql
+    networks:
+      - msgrabbit
+
+networks:
+  msgrabbit:
+    external: true
+
